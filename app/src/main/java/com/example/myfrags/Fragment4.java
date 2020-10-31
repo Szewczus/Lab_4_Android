@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class Fragment4 extends Fragment {
@@ -66,44 +67,45 @@ public class Fragment4 extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
                 edit.setSelection(s.length());
-                Integer zm=0;
+                //Integer zm=0;
+                if(edit.getText().length()==0)
+                {
+                    edit.setText("0");
+                }
+
+                if(edit.getText().toString().charAt(0)=='-')
+                {
+                    String liczba=edit.getText().toString().substring(1);
+                    Toast.makeText(getContext(),edit.getText().toString(), Toast.LENGTH_SHORT).show();
+                    if(liczba.length()==0)
+                    {
+                        edit.setText("0");
+
+                    }
+                }
+
+
                 if(!turnOffWatcher)
                 {
                     Integer i;
-
+                    Integer zm=0;
                     try {
-                        if(s.length()==0)
-                        {
-                            zm=1;
-                        }
 
                         i=Integer.parseInt(s.toString());
                     }
                     catch (NumberFormatException e){
                         i=fragsData.counter.getValue();
                     }
-                    if(edit.getText().toString()=="-")
-                    {
-                        fragsData.counter.setValue(-3);
-                    }
 
 
-                    if(zm==1)
-                    {
-                        fragsData.counter.setValue(0);
-                    }
-                    else
-                    {
-
-                        fragsData.counter.setValue(i);
-                    }
-
+                    fragsData.counter.setValue(i);
 
                 }
                 else
@@ -117,13 +119,6 @@ public class Fragment4 extends Fragment {
         //6
 
         edit.addTextChangedListener(textWatcher);
-
-
-
-
-
-
-
 
         return view;
     }
