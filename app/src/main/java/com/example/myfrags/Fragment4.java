@@ -74,43 +74,25 @@ public class Fragment4 extends Fragment {
             public void afterTextChanged(Editable s) {
 
                 edit.setSelection(s.length());
-                //Integer zm=0;
-                if(edit.getText().length()==0)
-                {
-                    edit.setText("0");
-                }
-
-                if(edit.getText().toString().charAt(0)=='-')
-                {
-                    String liczba=edit.getText().toString().substring(1);
-                    //Toast.makeText(getContext(),edit.getText().toString(), Toast.LENGTH_SHORT).show();
-                    if(liczba.length()==0)
-                    {
-                        edit.setText("0");
-
-                    }
-                }
-
-
                 if(!turnOffWatcher)
                 {
                     Integer i;
-                    Integer zm=0;
-                    try {
-
-                        i=Integer.parseInt(s.toString());
+                    String z="";
+                    try
+                    {
+                        z=s.toString();
                     }
-                    catch (NumberFormatException e){
+                    catch (NumberFormatException e)
+                    {
                         i=fragsData.counter.getValue();
                     }
-
-
-                    fragsData.counter.setValue(i);
-
+                    if (spr(z))
+                    {
+                        fragsData.counter.setValue(Integer.parseInt(z));
+                    }
                 }
                 else
                 {
-
                     turnOffWatcher=!turnOffWatcher;
                 }
             }
@@ -122,4 +104,19 @@ public class Fragment4 extends Fragment {
 
         return view;
     }
+    public boolean spr(String zm)
+    {
+        try {
+            Integer.parseInt(zm);
+            return true;
+        }catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+
+
+
 }
+
