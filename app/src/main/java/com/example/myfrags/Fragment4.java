@@ -77,7 +77,7 @@ public class Fragment4 extends Fragment {
                 if(!turnOffWatcher)
                 {
                     Integer i;
-                    String z="";
+                    String z="0";
                     try
                     {
                         z=s.toString();
