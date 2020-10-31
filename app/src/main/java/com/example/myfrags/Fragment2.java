@@ -3,62 +3,76 @@ package com.example.myfrags;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Fragment2#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class Fragment2 extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    //1
+    private FragsData fragsData;
+    private Observer<Integer> numberObserver; //prywatne pole obserwatora
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    //2
+    private TextView text;
+    private Button button;
 
-    public Fragment2() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment2.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Fragment2 newInstance(String param1, String param2) {
-        Fragment2 fragment = new Fragment2();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_2, container, false);
+
+        //return inflater.inflate(R.layout.fragment_2, container, false);//1 sposob na tworzenie layoutu we fragmencie1
+        View view = inflater.inflate(R.layout.fragment_2, container, false);//2 sposob na tworzenie layoutu we fragmencie1
+
+        //1
+
+        text=(TextView)view.findViewById(R.id.current);
+        button=(Button)view.findViewById(R.id.button_decrease);
+
+        //2 tworze objekt fragsData klasy FragsData(bo FragsData extends ViewModel)
+
+        fragsData=new ViewModelProvider(requireActivity()).get(FragsData.class);
+
+        //3 tworze observatora (numberObserver przechowuje liczbe ta sama dla kazdego frgamentu)
+
+        numberObserver=new Observer<Integer>() {
+
+            //3.1 metoda onChange uruchamiana zawsze gdy wartosc observatora sie zmienia
+            @Override
+            public void onChanged(Integer integer) {
+                text.setText(integer.toString());
+            }
+        };
+
+        //4 podłączenie obserwatora do obserwowaniej zmiennej
+
+        fragsData.counter.observe(getViewLifecycleOwner(), numberObserver);
+
+        //5
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Integer i=fragsData.counter.getValue();//przechwyć liczbe z ViewModel (dla kazdego frgamentu)
+                fragsData.counter.setValue(++i);//powiększ o 1 liczbe z ViewModel (dla kazdego frgamentu)
+            }
+        });
+
+
+
+        return view;//2 sposob na tworzenie layoutu we fragmencie1
+
     }
 }
