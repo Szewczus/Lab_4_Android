@@ -83,7 +83,7 @@ public class Fragment4 extends Fragment {
                 if(edit.getText().toString().charAt(0)=='-')
                 {
                     String liczba=edit.getText().toString().substring(1);
-                    Toast.makeText(getContext(),edit.getText().toString(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(),edit.getText().toString(), Toast.LENGTH_SHORT).show();
                     if(liczba.length()==0)
                     {
                         edit.setText("0");
