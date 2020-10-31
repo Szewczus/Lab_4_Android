@@ -78,12 +78,13 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
     @Override
     public void onButtonClickClockwise() {
         //Toast.makeText(getApplicationContext(), "Clockwise", Toast.LENGTH_SHORT).show();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         int t = frames[0];
         frames[0] = frames[1];
         frames[1] = frames[2];
         frames[2] = frames[3];
         frames[3] = t;
-
         newFragments();
     }
 
@@ -157,8 +158,12 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
         transaction.commit();
 
     }
-
-
-
-
+    //
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        frames=new int[]{
+                R.id.frame1, R.id.frame2, R.id.frame3, R.id.frame4
+        };
+    }
 }

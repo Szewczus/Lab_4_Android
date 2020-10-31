@@ -55,6 +55,7 @@ public class Fragment4 extends Fragment {
         //4
         fragsData.counter.observe(getViewLifecycleOwner(), numberObserver);
 
+
         //5
         textWatcher=new TextWatcher() {
             @Override
@@ -71,26 +72,35 @@ public class Fragment4 extends Fragment {
             public void afterTextChanged(Editable s) {
 
                 edit.setSelection(s.length());
+                Integer zm=0;
                 if(!turnOffWatcher)
                 {
                     Integer i;
-                    Integer zm=0;
+
                     try {
                         if(s.length()==0)
                         {
                             zm=1;
                         }
+
                         i=Integer.parseInt(s.toString());
                     }
                     catch (NumberFormatException e){
                         i=fragsData.counter.getValue();
                     }
+                    if(edit.getText().toString()=="-")
+                    {
+                        fragsData.counter.setValue(-3);
+                    }
+
+
                     if(zm==1)
                     {
                         fragsData.counter.setValue(0);
                     }
                     else
                     {
+
                         fragsData.counter.setValue(i);
                     }
 
@@ -98,12 +108,14 @@ public class Fragment4 extends Fragment {
                 }
                 else
                 {
+
                     turnOffWatcher=!turnOffWatcher;
                 }
             }
         };
 
         //6
+
         edit.addTextChangedListener(textWatcher);
 
 
